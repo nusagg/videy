@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Auto-play Videy & Redirect</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+html,body{margin:0;height:100%;background:#000;display:flex;justify-content:center;align-items:center}
+#wrap{position:relative;width:100%;max-width:430px;border-radius:12px;overflow:hidden}
+iframe{width:100%;aspect-ratio:9/16;border:0;background:#000}
+button#fallback{position:absolute;inset:0;background:#000c;border:0;color:#fff;font-size:18px;font-weight:700;cursor:pointer;display:none}
+</style>
+</head>
+<body>
+
+<div id="wrap">
+  <iframe id="vdy"
+          src="https://videy.co/e/XLuby4b41?muted=1&autoplay=1&controls=0"
+          allow="autoplay; fullscreen"
+          scrolling="no" loading="lazy"></iframe>
+
+  <button id="fallback">Play & Lanjut ▶</button>
+</div>
+
+<script>
+/* -------- konfigurasi -------- */
+const queryURL = "https://www.google.com/search?q=slot88+--mitosbet88"; // GANTI tujuan
+const delay    = 700;   // ms tunggu setelah 'play'
+
+const iframe   = document.getElementById('vdy');
+const fallback = document.getElementById('fallback');
+
+/* 1. coba dengar pesan postMessage dari Videy ketika video mulai */
+window.addEventListener('message',(e)=>{
+  if(!e.data || typeof e.data!=="string") return;
+  if(e.data.includes('videyplay')) redirectSoon();
+});
+
+/* 2. beri timeout; kalau autoplay gagal munculkan tombol */
+setTimeout(()=>{
+  fallback.style.display='block';
+}, 1200); // 1,2 s asumsi autoplay sudah mestinya mulai
+
+/* 3. tombol fallback: user trigger play via tap lalu redirect */
+fallback.addEventListener('click',()=>{
+  // trik: fokus ke iframe untuk memulai video (bypass mute)
+  iframe.contentWindow.postMessage('play','*');
+  redirectSoon();
+});
+
+/* util */
+function redirectSoon(){
+  if(redirectSoon.done) return;
+  redirectSoon.done=true;
+  setTimeout(()=>location.replace(queryURL), delay);
+  fallback.style.display='none';
+}
+</script>
+
+</body>
+</html>
