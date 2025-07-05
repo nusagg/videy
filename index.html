@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>videy – Responsive Player</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  :root{
+    --header-h:52px;
+    --gray:#e6e6e6;
+    --gray-dk:#dcdcdc;
+    --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;font-family:var(--font);}
+  html,body{margin:0;background:#fff;color:#000}
+  a{text-decoration:none;color:#000}
+
+  /* HEADER */
+  header{
+    height:var(--header-h);padding:0 12px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{font-size:24px;font-weight:700}
+  nav{display:flex;gap:18px;font-size:14px;font-weight:600}
+  .btn{
+    background:var(--gray);padding:6px 20px;border-radius:24px;
+  }
+  .btn:hover{background:var(--gray-dk)}
+
+  /* PLAYER WRAPPER */
+  .container{
+    width:100%;max-width:640px;margin:0 auto;padding:20px 12px;
+  }
+  iframe#player{width:100%;border:0;display:block;}
+
+  /* FOOTER */
+  footer{font-size:12px;text-align:center;padding:28px 8px 40px;color:#606060;}
+  footer a{color:#606060}
+
+  /* RESPONSIVE HEADER (≤375 px) */
+  @media(max-width:375px){
+    nav{gap:12px;font-size:13px}
+    .btn{padding:5px 16px}
+    .logo{font-size:22px}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">videy</div>
+  <nav>
+    <a class="btn" href="#">Upload</a>
+    <a href="#">Advertise</a>
+  </nav>
+</header>
+
+<!-- VIDEO (ID di data-attr) -->
+<main class="container" data-id="MEyFa2051">
+  <iframe id="player" allowfullscreen loading="lazy"></iframe>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  © 2025 videy.co · <a href="#">Terms</a> · <a href="#">Report</a>
+</footer>
+
+<script>
+/* ======== MASUKKAN ID KE SRC ========= */
+const cont = document.querySelector('.container');
+const id   = cont.dataset.id.trim();
+document.getElementById('player').src = `https://videy.co/v/?id=MEyFa2051`;
+
+/* ======== ATUR TINGGI RESPONSIF ====== */
+function fit(){
+  const headerH = document.querySelector('header').offsetHeight;
+  const footerH = document.querySelector('footer').offsetHeight;
+  const availH  = window.innerHeight - headerH - footerH - 24; // 24 px padding
+  const w       = cont.clientWidth;
+
+  const portrait = window.innerHeight >= window.innerWidth;
+  const ratio    = portrait ? 16/9 : 9/16; // tinggi = lebar × rasio
+  let h          = w * ratio;
+
+  if(h > availH) h = availH;              // cegah overflow
+  document.getElementById('player').style.height = h + 'px';
+}
+window.addEventListener('load', fit);
+window.addEventListener('resize', fit);
+</script>
+
+</body>
+</html>
