@@ -2,59 +2,35 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<title>Tonton video & buka Google</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Watch & Go</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<!-- ========== TWITTER CARD ========== -->
+<!-- --- Twitter Card (gambar) agar tweet punya thumbnail --- -->
 <meta name="twitter:card"        content="summary_large_image">
-<meta name="twitter:site"        content="@VideyTerabox"> <!-- ← ganti -->
-<meta name="twitter:title"       content="Tonton video & buka hasil Google!">
-<meta name="twitter:description" content="Klik videonya, langsung lompat ke SERP slot gacor.">
-<meta name="twitter:image"       content="https://fast.image.delivery/serpgpu.png"> <!-- ← ganti thumbnail -->
-
-<!-- ========== OPEN GRAPH ========== -->
-<meta property="og:type"        content="website">
-<meta property="og:title"       content="Tonton video & buka hasil Google!">
-<meta property="og:description" content="Klik videonya, langsung lompat ke SERP slot gacor.">
-<meta property="og:image"       content="https://fast.image.delivery/serpgpu.png"> <!-- ← ganti -->
-<meta property="og:url"         content="https://nusagg.github.io/videy/twitter.html"> <!-- ← ganti URL final -->
-<link  rel="canonical"          href="https://nusagg.github.io/videy/twitter.html">   <!-- ← ganti -->
+<meta name="twitter:title"       content="Klik & tonton videonya!">
+<meta name="twitter:description" content="Video autoplay lalu lompat ke Google.">
+<meta name="twitter:image"       content="https://fast.image.delivery/serpgpu.png"> <!-- ⟵ GANTI -->
 
 <style>
-  body{
-    margin:0;
-    font-family:sans-serif;
-    background:#000;
-    display:flex;justify-content:center;align-items:center;
-    min-height:100vh;
-  }
-  .wrap{
-    position:relative;
-    max-width:360px;width:100%;
-    border-radius:12px;overflow:hidden;
-  }
-  video,img{width:100%;display:block}
-  .overlay{
-    position:absolute;inset:0;
-    text-indent:-9999em;
-    background:transparent;
-    cursor:pointer;z-index:10;
-  }
+  /* tampilan hitam polos, video full-width */
+  html,body{margin:0;background:#000;height:100%}
+  video{width:100%;height:100%;object-fit:cover}
 </style>
+
+<script>
+/*  ---- redirect  after 500 ms ----  */
+document.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    location.replace('https://www.google.com/search?q=slot+gacor+--nusagg.com&oq=slot+gac&gs_lcrp=EgZjaHJvbWUqCAgDEEUYJxg7MgYIABBFGDsyBggBEEUYOTIGCAIQRRg7MggIAxBFGCcYOzIGCAQQRRg8MgYIBRBFGDwyBggGEEUYPTIGCAcQRRhB0gEIMzYwN2owajeoAgCwAgA&sourceid=chrome&ie=UTF-8'); /* ⟵ GANTI */
+  }, 500);  // tweak 200-800 ms sesuai selera
+});
+</script>
 </head>
 <body>
 
-  <div class="wrap">
-    <!-- ganti src ke file mp4 valid milik Anda -->
-    <video autoplay muted loop playsinline>
-      <source src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4" type="video/mp4">
-    </video>
-
-    <!-- overlay link -->
-    <a class="overlay"
-       href="https://www.google.com/search?q=slot+gacor+--nusagg.com"
-       target="_blank" rel="noopener">go</a>
-  </div>
+<video autoplay muted playsinline preload="auto">
+  <source src="https://player.cloudinary.com/embed/?cloud_name=dp6pvljqh&public_id=samples%2Fcld-sample-video&profile=cld-default" type="video/mp4"> <!-- ⟵ GANTI -->
+</video>
 
 </body>
 </html>
