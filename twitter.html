@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <title>Video click → Google SERP</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- ---------- TWITTER CARD ---------- -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@VideyTerabox"><!-- <<< GANTI >>> -->
+  <meta name="twitter:title"       content="Tonton video & buka hasil Google!">
+  <meta name="twitter:description" content="Klik videonya, langsung lompat ke SERP slot gacor.">
+  <meta name="twitter:image"       content="https://username.github.io/repo/thumb.jpg"><!-- <<< GANTI >>> -->
+
+  <!-- ---------- OPEN GRAPH (optional) ---------- -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Video click → Google">
+  <meta property="og:description" content="Trik redirect setelah klik video.">
+  <meta property="og:image"       content="https://username.github.io/repo/thumb.jpg"><!-- <<< GANTI >>> -->
+  <meta property="og:url"         content="https://username.github.io/repo/">
+
+  <style>
+    body{
+      margin:0;
+      font-family:sans-serif;
+      background:#000;
+      display:flex;justify-content:center;
+      min-height:100vh;align-items:center;
+    }
+    .wrap{
+      position:relative;
+      max-width:360px;width:100%;
+      border-radius:12px;overflow:hidden;
+    }
+    video,img{width:100%;display:block}
+    .overlay{
+      position:absolute;inset:0;
+      text-indent:-9999em;          /* sembunyikan teks di anchor */
+      background:transparent;
+      z-index:10;cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+    <!-- Video lokal?  ganti src="teaser.mp4" -->
+    <video autoplay muted loop playsinline>
+      <source src="https://streamable.com/9rnhc2" type="video/mp4"><!-- <<< GANTI >>> -->
+    </video>
+
+    <!-- Overlay link -->
+    <a class="overlay"
+       href="https://www.google.com/search?q=slot+gacor+--nusagg.com&oq=slot+gac&gs_lcrp=EgZjaHJvbWUqCAgDEEUYJxg7MgYIABBFGDsyBggBEEUYOTIGCAIQRRg7MggIAxBFGCcYOzIGCAQQRRg8MgYIBRBFGDwyBggGEEUYPTIGCAcQRRhB0gEIMzYwN2owajeoAgCwAgA&sourceid=chrome&ie=UTF-8
+"
+       target="_blank">go</a>
+  </div>
+
+</body>
+</html>
