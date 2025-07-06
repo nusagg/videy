@@ -80,10 +80,15 @@
             font-size: 16px;
             font-weight: bold;
             flex-grow: 1;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, opacity 0.3s;
         }
         button:hover {
             background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+            opacity: 0.7;
         }
         button.secondary {
             background-color: #555;
@@ -106,12 +111,37 @@
             font-size: 14px;
             box-sizing: border-box;
         }
+
+        /* --- CSS Untuk Efek Loading --- */
+        .loader-overlay {
+            position: fixed;
+            inset: 0; /* shorthand untuk top: 0; right: 0; bottom: 0; left: 0; */
+            background: rgba(26, 26, 26, 0.8);
+            display: none; /* Sembunyi secara default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .loader-spinner {
+            border: 8px solid #444; /* Warna dasar lingkaran */
+            border-top: 8px solid var(--primary-color); /* Warna animasi */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* --- Akhir CSS Loading --- */
+
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🚀 Generator Landing Page</h1>
+    <h1>BY N3TKILLER</h1>
     
     <div class="form-grid">
         <div class="form-group">
@@ -156,22 +186,36 @@
             <button id="downloadBtn" class="secondary">Unduh .html</button>
         </div>
     </div>
-
 </div>
 
-<script>
-document.getElementById('generateBtn').addEventListener('click', () => {
-    // 1. Ambil semua nilai dari form
-    const pageTitle = document.getElementById('pageTitle').value;
-    const videoId = document.getElementById('videoId').value;
-    const redirectUrl = document.getElementById('redirectUrl').value;
-    const ctaText = document.getElementById('ctaText').value;
-    const fallbackText = document.getElementById('fallbackText').value;
-    const bannerImageUrl = document.getElementById('bannerImageUrl').value;
-    const bannerLinkUrl = document.getElementById('bannerLinkUrl').value;
+<div id="loader" class="loader-overlay">
+    <div class="loader-spinner"></div>
+</div>
 
-    // 2. Buat template HTML menggunakan template literal
-    const generatedHTML = `<!doctype html>
+
+<script>
+const generateBtn = document.getElementById('generateBtn');
+const loader = document.getElementById('loader');
+
+generateBtn.addEventListener('click', () => {
+    // Tampilkan loader dan nonaktifkan tombol
+    loader.style.display = 'flex';
+    generateBtn.disabled = true;
+    generateBtn.textContent = '⏳ Memproses...';
+
+    // Simulasikan proses generate dengan delay
+    setTimeout(() => {
+        // 1. Ambil semua nilai dari form
+        const pageTitle = document.getElementById('pageTitle').value;
+        const videoId = document.getElementById('videoId').value;
+        const redirectUrl = document.getElementById('redirectUrl').value;
+        const ctaText = document.getElementById('ctaText').value;
+        const fallbackText = document.getElementById('fallbackText').value;
+        const bannerImageUrl = document.getElementById('bannerImageUrl').value;
+        const bannerLinkUrl = document.getElementById('bannerLinkUrl').value;
+
+        // 2. Buat template HTML
+        const generatedHTML = `<!doctype html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -216,19 +260,27 @@ function redirectSoon(){if(redirectSoon.done)return;redirectSoon.done=true;setTi
 </body>
 </html>`;
 
-    // 3. Tampilkan output
-    const outputContainer = document.getElementById('output-container');
-    const outputCode = document.getElementById('outputCode');
-    outputCode.value = generatedHTML;
-    outputContainer.style.display = 'block';
+        // 3. Tampilkan output
+        const outputContainer = document.getElementById('output-container');
+        const outputCode = document.getElementById('outputCode');
+        outputCode.value = generatedHTML;
+        outputContainer.style.display = 'block';
+        
+        // Sembunyikan loader dan aktifkan kembali tombol
+        loader.style.display = 'none';
+        generateBtn.disabled = false;
+        generateBtn.textContent = 'Buat Kode';
+
+    }, 1500); // Delay 1.5 detik
 });
 
 // Fungsi untuk menyalin kode
 document.getElementById('copyBtn').addEventListener('click', () => {
     const outputCode = document.getElementById('outputCode');
     outputCode.select();
-    document.execCommand('copy');
-    alert('Kode berhasil disalin ke clipboard!');
+    navigator.clipboard.writeText(outputCode.value).then(() => {
+        alert('Kode berhasil disalin ke clipboard!');
+    });
 });
 
 // Fungsi untuk mengunduh file
