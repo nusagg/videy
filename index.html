@@ -3,135 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GΞNΞRATOR_LP.exe v2.0</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <title>Generator Landing Page Video</title>
     <style>
         :root {
-            --bg-color: #000000;
-            --main-color: #00ff41;
-            --border-color: #008f11;
-            --glow-color: rgba(0, 255, 65, 0.7);
-            --scanline-color: rgba(0, 0, 0, 0.3);
-        }
-        * {
-            box-sizing: border-box;
+            --bg-color: #1a1a1a;
+            --form-bg: #2c2c2c;
+            --text-color: #f0f0f0;
+            --primary-color: #007bff;
+            --input-bg: #333;
+            --border-color: #444;
         }
         body {
-            font-family: 'VT323', monospace;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
-            color: var(--main-color);
+            color: var(--text-color);
             margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
-            text-shadow: 0 0 5px var(--glow-color);
-        }
-        canvas#matrix-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.5;
         }
         .container {
             width: 100%;
             max-width: 800px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            box-shadow: 0 0 25px rgba(0, 255, 65, 0.2);
         }
-        h1 {
+        h1, h2 {
             text-align: center;
-            color: var(--main-color);
-            border-bottom: 2px solid var(--border-color);
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
             padding-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 2.5em;
-            animation: flicker 3s linear infinite;
-        }
-        h2 {
-            color: var(--main-color);
-            text-transform: uppercase;
-        }
-        @keyframes flicker {
-            0%, 100% { opacity: 1; text-shadow: 0 0 5px var(--glow-color); }
-            50% { opacity: 0.8; text-shadow: 0 0 10px var(--glow-color); }
         }
         .form-grid {
-            padding: 20px 0;
+            background-color: var(--form-bg);
+            padding: 20px;
+            border-radius: 8px;
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 15px;
         }
         @media (min-width: 600px) {
-            .form-grid { grid-template-columns: 1fr 1fr; }
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
-        .form-group { display: flex; flex-direction: column; }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
         label {
             margin-bottom: 5px;
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 1.2em;
         }
-        input[type="text"], input[type="url"], textarea {
-            background-color: #050a05;
+        input[type="text"], input[type="url"] {
+            background-color: var(--input-bg);
             border: 1px solid var(--border-color);
-            color: var(--main-color);
+            color: var(--text-color);
             padding: 10px;
-            font-family: inherit;
-            font-size: 1.2em;
-            caret-color: var(--main-color);
-            transition: box-shadow 0.3s, border-color 0.3s;
+            border-radius: 5px;
+            font-size: 16px;
         }
-        input:focus, textarea:focus {
-            outline: none;
-            box-shadow: 0 0 15px var(--glow-color);
-            border-color: var(--main-color);
+        .full-width {
+            grid-column: 1 / -1;
         }
-        .full-width { grid-column: 1 / -1; }
-        .actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
         button {
-            background-color: var(--main-color);
-            color: var(--bg-color);
+            background-color: var(--primary-color);
+            color: white;
             border: none;
             padding: 12px 20px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 1.2em;
+            font-size: 16px;
             font-weight: bold;
-            font-family: inherit;
             flex-grow: 1;
-            transition: transform 0.2s;
-            text-transform: uppercase;
+            transition: background-color 0.3s;
         }
         button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px var(--glow-color);
+            background-color: #0056b3;
         }
-        #output-container { margin-top: 30px; }
-        textarea { height: 300px; }
+        button.secondary {
+            background-color: #555;
+        }
+        button.secondary:hover {
+            background-color: #444;
+        }
+        #output-container {
+            margin-top: 30px;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: #7fdbff;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
-<canvas id="matrix-canvas"></canvas>
 
 <div class="container">
-    <h1>GΞNΞRATOR_LP.exe</h1>
+    <h1>🚀 Generator Landing Page</h1>
     
     <div class="form-grid">
-        <div class="form-group"><label for="pageTitle">>> Judul Halaman</label><input type="text" id="pageTitle" value="Auto-play Videy & Redirect"></div>
-        <div class="form-group"><label for="videoId">>> ID Video</label><input type="text" id="videoId" value="PiswTkVa1" placeholder="Contoh: PiswTkVa1"></div>
-        <div class="form-group full-width"><label for="redirectUrl">>> URL Redirect</label><input type="url" id="redirectUrl" value="https://google.com/search?q=gacor" placeholder="https://..."></div>
-        <div class="form-group"><label for="ctaText">>> Teks Tombol CTA</label><input type="text" id="ctaText" value="Lanjutkan Sekarang 🔥"></div>
-        <div class="form-group"><label for="fallbackText">>> Teks Tombol Fallback</label><input type="text" id="fallbackText" value="Play & Lanjut ▶"></div>
-        <div class="form-group full-width"><label for="bannerImageUrl">>> URL Gambar Banner</label><input type="url" id="bannerImageUrl" value="https://i.imgur.com/vHqB3qf.jpeg" placeholder="https://..."></div>
-        <div class="form-group full-width"><label for="bannerLinkUrl">>> URL Link Banner</label><input type="url" id="bannerLinkUrl" value="https://google.com" placeholder="https://..."></div>
+        <div class="form-group">
+            <label for="pageTitle">Judul Halaman</label>
+            <input type="text" id="pageTitle" value="Auto-play Videy & Redirect">
+        </div>
+        <div class="form-group">
+            <label for="videoId">ID Video (dari Videy.co)</label>
+            <input type="text" id="videoId" value="PiswTkVa1" placeholder="Contoh: PiswTkVa1">
+        </div>
+        <div class="form-group full-width">
+            <label for="redirectUrl">URL Redirect (Tujuan)</label>
+            <input type="url" id="redirectUrl" value="https://google.com/search?q=gacor" placeholder="https://...">
+        </div>
+        <div class="form-group">
+            <label for="ctaText">Teks Tombol CTA</label>
+            <input type="text" id="ctaText" value="Lanjutkan Sekarang 🔥">
+        </div>
+        <div class="form-group">
+            <label for="fallbackText">Teks Tombol Fallback</label>
+            <input type="text" id="fallbackText" value="Play & Lanjut ▶">
+        </div>
+        <div class="form-group full-width">
+            <label for="bannerImageUrl">URL Gambar Banner</label>
+            <input type="url" id="bannerImageUrl" value="https://i.imgur.com/vHqB3qf.jpeg" placeholder="https://...">
+        </div>
+        <div class="form-group full-width">
+            <label for="bannerLinkUrl">URL Link Banner (Tujuan Klik)</label>
+            <input type="url" id="bannerLinkUrl" value="https://google.com" placeholder="https://...">
+        </div>
     </div>
 
     <div class="actions full-width">
@@ -139,87 +149,100 @@
     </div>
 
     <div id="output-container" style="display:none;">
-        <h2>[+] Kode Berhasil Dibuat</h2>
+        <h2>✅ Kode Berhasil Dibuat</h2>
         <textarea id="outputCode" readonly></textarea>
         <div class="actions">
             <button id="copyBtn">Salin Kode</button>
-            <button id="downloadBtn">Unduh .html</button>
+            <button id="downloadBtn" class="secondary">Unduh .html</button>
         </div>
     </div>
+
 </div>
 
 <script>
-    // --- MATRIX RAIN EFFECT SCRIPT ---
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
+document.getElementById('generateBtn').addEventListener('click', () => {
+    // 1. Ambil semua nilai dari form
+    const pageTitle = document.getElementById('pageTitle').value;
+    const videoId = document.getElementById('videoId').value;
+    const redirectUrl = document.getElementById('redirectUrl').value;
+    const ctaText = document.getElementById('ctaText').value;
+    const fallbackText = document.getElementById('fallbackText').value;
+    const bannerImageUrl = document.getElementById('bannerImageUrl').value;
+    const bannerLinkUrl = document.getElementById('bannerLinkUrl').value;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // 2. Buat template HTML menggunakan template literal
+    const generatedHTML = `<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>${pageTitle}</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+html,body{margin:0;height:100%;background:#000;display:flex;justify-content:center;align-items:center}
+#wrap{position:relative;width:100%;max-width:430px;border-radius:12px;overflow:hidden}
+iframe{width:100%;aspect-ratio:9/16;border:0;background:#000;display:block;}
+button#fallback{position:absolute;inset:0;background:#000c;border:0;color:#fff;font-size:18px;font-weight:700;cursor:pointer;display:none}
+#main-container{display:flex;flex-direction:column;align-items:center;width:100%;max-width:430px;padding:0 10px 10px 10px}
+#animated-cta{display:block;width:100%;padding:14px;margin-top:12px;border:none;border-radius:10px;font-size:17px;font-weight:700;color:#fff;cursor:pointer;text-transform:uppercase;background:linear-gradient(90deg, #ff4d4d, #f90, #ff4d4d);background-size:200% auto;animation:pulse 2s infinite, shimmer 3s linear infinite}
+#ad-banner{display:block;width:100%;margin-top:12px;border-radius:10px;overflow:hidden;line-height:0}
+#ad-banner img{width:100%;height:auto;display:block}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,107,7,.7)}70%{box-shadow:0 0 0 15px rgba(255,107,7,0)}100%{box-shadow:0 0 0 0 rgba(255,107,7,0)}}
+@keyframes shimmer{to{background-position:-200% center}}
+</style>
+</head>
+<body>
+<div id="main-container">
+    <div id="wrap">
+      <iframe id="vdy" src="https://videy.co/v/?id=${videoId}" allow="autoplay; fullscreen" scrolling="no" loading="lazy"></iframe>
+      <button id="fallback">${fallbackText}</button>
+    </div>
+    <button id="animated-cta">${ctaText}</button>
+    <a id="ad-banner" href="${bannerLinkUrl}" target="_blank">
+        <img src="${bannerImageUrl}" alt="Banner Iklan">
+    </a>
+</div>
+<script>
+const queryURL="${redirectUrl}";
+const delay=700;
+const iframe=document.getElementById('vdy');
+const fallback=document.getElementById('fallback');
+window.addEventListener('message',(e)=>{if(!e.data||typeof e.data!=="string")return;if(e.data.includes('videyplay'))redirectSoon()});
+setTimeout(()=>{fallback.style.display='block'},1200);
+fallback.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');redirectSoon()});
+function redirectSoon(){if(redirectSoon.done)return;redirectSoon.done=true;setTimeout(()=>location.replace(queryURL),delay);fallback.style.display='none'}
+<\/script>
+<script>document.getElementById('animated-cta').addEventListener('click',()=>{redirectSoon()});<\/script>
+</body>
+</html>`;
 
-    const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-    const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const nums = '0123456789';
-    const alphabet = katakana + latin + nums;
+    // 3. Tampilkan output
+    const outputContainer = document.getElementById('output-container');
+    const outputCode = document.getElementById('outputCode');
+    outputCode.value = generatedHTML;
+    outputContainer.style.display = 'block';
+});
 
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const rainDrops = [];
+// Fungsi untuk menyalin kode
+document.getElementById('copyBtn').addEventListener('click', () => {
+    const outputCode = document.getElementById('outputCode');
+    outputCode.select();
+    document.execCommand('copy');
+    alert('Kode berhasil disalin ke clipboard!');
+});
 
-    for (let x = 0; x < columns; x++) {
-        rainDrops[x] = 1;
-    }
+// Fungsi untuk mengunduh file
+document.getElementById('downloadBtn').addEventListener('click', () => {
+    const code = document.getElementById('outputCode').value;
+    const blob = new Blob([code], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'index.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+});
 
-    const draw = () => {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = '#00ff41';
-        ctx.font = fontSize + 'px VT323';
-
-        for (let i = 0; i < rainDrops.length; i++) {
-            const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-            ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
-            if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                rainDrops[i] = 0;
-            }
-            rainDrops[i]++;
-        }
-    };
-
-    setInterval(draw, 33);
-
-    // --- SCRIPT GENERATOR ASLI ANDA ---
-    document.getElementById('generateBtn').addEventListener('click', () => {
-        const pageTitle = document.getElementById('pageTitle').value;
-        const videoId = document.getElementById('videoId').value;
-        const redirectUrl = document.getElementById('redirectUrl').value;
-        const ctaText = document.getElementById('ctaText').value;
-        const fallbackText = document.getElementById('fallbackText').value;
-        const bannerImageUrl = document.getElementById('bannerImageUrl').value;
-        const bannerLinkUrl = document.getElementById('bannerLinkUrl').value;
-        const generatedHTML = `<!doctype html><html lang="id"><head><meta charset="utf-8"><title>${pageTitle}</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}html,body{margin:0;height:100%;background:#000;display:flex;justify-content:center;align-items:center}#wrap{position:relative;width:100%;max-width:430px;border-radius:12px;overflow:hidden}iframe{width:100%;aspect-ratio:9/16;border:0;background:#000;display:block;}button#fallback{position:absolute;inset:0;background:#000c;border:0;color:#fff;font-size:18px;font-weight:700;cursor:pointer;display:none}#main-container{display:flex;flex-direction:column;align-items:center;width:100%;max-width:430px;padding:0 10px 10px 10px}#animated-cta{display:block;width:100%;padding:14px;margin-top:12px;border:none;border-radius:10px;font-size:17px;font-weight:700;color:#fff;cursor:pointer;text-transform:uppercase;background:linear-gradient(90deg, #ff4d4d, #f90, #ff4d4d);background-size:200% auto;animation:pulse 2s infinite, shimmer 3s linear infinite}#ad-banner{display:block;width:100%;margin-top:12px;border-radius:10px;overflow:hidden;line-height:0}#ad-banner img{width:100%;height:auto;display:block}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,107,7,.7)}70%{box-shadow:0 0 0 15px rgba(255,107,7,0)}100%{box-shadow:0 0 0 0 rgba(255,107,7,0)}}@keyframes shimmer{to{background-position:-200% center}}</style></head><body><div id="main-container"><div id="wrap"><iframe id="vdy" src="https://videy.co/v/?id=${videoId}" allow="autoplay; fullscreen" scrolling="no" loading="lazy"></iframe><button id="fallback">${fallbackText}</button></div><button id="animated-cta">${ctaText}</button><a id="ad-banner" href="${bannerLinkUrl}" target="_blank"><img src="${bannerImageUrl}" alt="Banner Iklan"></a></div><script>const queryURL="${redirectUrl}";const delay=700;const iframe=document.getElementById('vdy');const fallback=document.getElementById('fallback');window.addEventListener('message',(e)=>{if(!e.data||typeof e.data!=="string")return;if(e.data.includes('videyplay'))redirectSoon()});setTimeout(()=>{fallback.style.display='block'},1200);fallback.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');redirectSoon()});function redirectSoon(){if(redirectSoon.done)return;redirectSoon.done=true;setTimeout(()=>location.replace(queryURL),delay);fallback.style.display='none'}<\/script><script>document.getElementById('animated-cta').addEventListener('click',()=>{redirectSoon()});<\/script></body></html>`;
-        const outputContainer = document.getElementById('output-container');
-        const outputCode = document.getElementById('outputCode');
-        outputCode.value = generatedHTML;
-        outputContainer.style.display = 'block';
-    });
-    document.getElementById('copyBtn').addEventListener('click', () => {
-        const outputCode = document.getElementById('outputCode');
-        outputCode.select();
-        document.execCommand('copy');
-        alert('>> OUTPUT COPIED TO MEMORY');
-    });
-    document.getElementById('downloadBtn').addEventListener('click', () => {
-        const code = document.getElementById('outputCode').value;
-        const blob = new Blob([code], { type: 'text/html' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'index.html';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    });
 </script>
 </body>
 </html>
