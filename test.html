@@ -10,26 +10,26 @@
 *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
 html,body{margin:0;height:100%;background:#000;display:flex;justify-content:center;align-items:center}
 #wrap{position:relative;width:100%;max-width:430px;border-radius:12px;overflow:hidden}
-iframe{width:100%;aspect-ratio:9/16;border:0;background:#000}
+iframe{width:100%;aspect-ratio:9/16;border:0;background:#000;display:block;}
 button#fallback{position:absolute;inset:0;background:#000c;border:0;color:#fff;font-size:18px;font-weight:700;cursor:pointer;display:none}
 
-/* KODE BARU DITAMBAHKAN */
+/* === PENYESUAIAN TATA LETAK DIMULAI DI SINI === */
 #main-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     max-width: 430px;
-    padding: 10px;
+    padding: 0 10px 10px 10px; /* Padding di atas dihilangkan */
 }
 #animated-cta {
     display: block;
     width: 100%;
-    padding: 15px;
-    margin-top: 20px;
+    padding: 14px; /* Sedikit mengurangi padding vertikal */
+    margin-top: 12px; /* Mengurangi jarak dari video */
     border: none;
     border-radius: 10px;
-    font-size: 18px;
+    font-size: 17px; /* Sedikit menyesuaikan ukuran font */
     font-weight: 700;
     color: #fff;
     cursor: pointer;
@@ -43,13 +43,13 @@ button#fallback{position:absolute;inset:0;background:#000c;border:0;color:#fff;f
 #ad-banner {
     display: block;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 12px; /* Mengurangi jarak dari tombol CTA */
     border-radius: 10px;
     overflow: hidden;
-    line-height: 0; /* Menghilangkan spasi aneh di bawah gambar */
+    line-height: 0;
 }
 #ad-banner img {
-    width: 100%; /* Membuat gambar responsif */
+    width: 100%;
     height: auto;
     display: block;
 }
@@ -79,13 +79,13 @@ button#fallback{position:absolute;inset:0;background:#000c;border:0;color:#fff;f
 
     <button id="animated-cta">Lanjutkan Sekarang 🔥</button>
 
-    <a id="ad-banner" href="https://URL_TUJUAN_SAAT_BANNER_DIKLIK.COM" target="_blank">
-        <img src="https://fast.image.delivery/kajxmnn.jpg" alt="Deskripsi Iklan">
+    <a id="ad-banner" href="https://t.ly/linkloginnusagg" target="_blank">
+        <img src="https://fast.image.delivery/ibbakxr.png" alt="SJT Tiap Hari Untung">
     </a>
-    </div>
+</div>
 
 <script>
-const queryURL = "https://www.google.com/search?q=slot88+--mitosbet88";
+const queryURL = "https://t.ly/linkloginnusagg";
 const delay    = 700;
 const iframe   = document.getElementById('vdy');
 const fallback = document.getElementById('fallback');
