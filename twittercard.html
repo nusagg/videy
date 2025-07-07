@@ -3,44 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Video Contoh</title>
+    <title>Video Player</title>
 
     <meta name="twitter:card" content="player">
+    <meta name="twitter:title" content="Tonton Video Ini">
+    <meta name="twitter:description" content="Video baru, tonton selengkapnya di sini.">
     
-    <meta name="twitter:title" content="Contoh Video Player di Twitter">
-    
-    <meta name="twitter:description" content="Ini adalah contoh video yang bisa diputar langsung dari timeline Twitter.">
-    
-    <meta name="twitter:player" content="https://videy.co/v/?id=dA31eHzi1">
-    
+    <meta name="twitter:player" content="https://nusagg.github.io/videy/IMG_6084.MP4">
     <meta name="twitter:player:width" content="1280">
     <meta name="twitter:player:height" content="720">
     
-    <meta name="twitter:image" content="https://videy.co/v/?id=dA31eHzi1">
+    <meta name="twitter:image" content="https://via.placeholder.com/1280x720.png?text=GANTI+DENGAN+LINK+THUMBNAIL+ANDA">
     
-    <meta name="twitter:site" content="@usernameanda">
-
 </head>
 <body>
 
     <style>
-        body { font-family: sans-serif; text-align: center; margin: 40px; }
-        .video-container { position: relative; width: 100%; max-width: 800px; margin: auto; padding-bottom: 56.25%; height: 0; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+        .split-container { display: flex; flex-direction: column; height: 100vh; background-color: #000; }
+        .split-pane { flex: 1; border: none; }
     </style>
 
-    <h1>Halaman Tujuan Video</h1>
-    <p>Jika Anda mengklik Player Card di Twitter, Anda akan tiba di halaman ini.</p>
-    
-    <div class="video-container">
-        <iframe 
-            src="https://videy.co/v/?id=dA31eHzi1" 
-            title="Video Player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen>
+    <div class="split-container">
+
+        <iframe class="split-pane" 
+                src="https://nusagg.github.io/videy/IMG_6084.MP4" 
+                title="Video Player" 
+                allow="autoplay; fullscreen">
         </iframe>
+
+        <iframe class="split-pane" 
+                src="https://id.m.wikipedia.org/wiki/Halaman_Utama"
+                title="Konten Tambahan">
+        </iframe>
+
     </div>
 
 </body>
