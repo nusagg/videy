@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contoh Halaman Interaktif</title>
+    <meta name="description" content="Contoh halaman yang menampilkan video dan konten web lain secara bersamaan.">
+
+    <meta name="twitter:card" content="player">
+    <meta name="twitter:site" content="@gantidengannamausertwitteranda"> <meta name="twitter:title" content="Video Tutorial: Belajar Koding">
+    <meta name="twitter:description" content="Tonton video tutorial ini langsung dari timeline Anda!">
+    
+    <meta name="twitter:image" content="https://videy.co/v/?id=dA31eHzi1">
+    
+    <meta name="twitter:player" content="https://videy.co/v/?id=dA31eHzi1">
+    <meta name="twitter:player:width" content="560">
+    <meta name="twitter:player:height" content="315">
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Mencegah scrolling pada halaman utama */
+        }
+        .split-container {
+            display: flex;
+            flex-direction: column; /* Mengatur tata letak vertikal (atas-bawah) */
+            height: 100vh; /* Tinggi 100% dari viewport (layar) */
+            background-color: #000;
+        }
+        .split-pane {
+            flex: 1; /* Membuat kedua bagian memiliki ukuran yang sama */
+            border: none; /* Menghilangkan border pada iframe */
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="split-container">
+
+        <iframe class="split-pane" 
+                src="https://www.youtube.com/embed/zOjov-2OZ0E" 
+                title="YouTube video player" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
+
+        <iframe class="split-pane" 
+                src="https://www.google.com/search?q=slot+gacor+--nusagg.com&oq=slot+gac&gs_lcrp=EgZjaHJvbWUqCAgDEEUYJxg7MgYIABBFGDsyBggBEEUYOTIGCAIQRRg7MggIAxBFGCcYOzIGCAQQRRg8MgYIBRBFGDwyBggGEEUYPTIGCAcQRRhB0gEIMzYwN2owajeoAgCwAgA&sourceid=chrome&ie=UTF-8"
+                title="Konten Tambahan">
+        </iframe>
+
+    </div>
+
+</body>
+</html>
