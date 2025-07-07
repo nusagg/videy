@@ -2,15 +2,15 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<title>Auto-play Videy & Redirect</title>
+<title>#bokepindo #videy #chudai #terabox #dodstream #nusagg</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Auto-play Videy & Redirect">
+<meta name="twitter:title" content="#bokepindo #videy #chudai #terabox #dodstream #nusagg">
 <meta name="twitter:description" content="Tonton video selengkapnya di sini.">
-<meta name="twitter:image" content="https://fast.image.delivery/jlcljhk.png">
-<meta property="og:title" content="Auto-play Videy & Redirect">
+<meta name="twitter:image" content="https://fast.image.delivery/ciziwdc.png">
+<meta property="og:title" content="#bokepindo #videy #chudai #terabox #dodstream #nusagg">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://fast.image.delivery/jlcljhk.png">
+<meta property="og:image" content="https://fast.image.delivery/ciziwdc.png">
 <meta property="og:description" content="Tonton video selengkapnya di sini.">
 <style>
 *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
@@ -29,24 +29,27 @@ button#fallback{position:absolute;inset:0;background:rgba(0,0,0,0.5);border:0;co
 <body>
 <div id="main-container">
     <div id="wrap">
-      <iframe id="vdy" src="https://videy.co/v/?id=fBT9Bh4f1" allow="autoplay; fullscreen" scrolling="no" loading="lazy"></iframe>
-      <button id="fallback">Play & Lanjut ▶</button>
+      <iframe id="vdy" src="https://videy.co/v/?id=CqjqWcZo1" allow="autoplay; fullscreen" scrolling="no" loading="lazy"></iframe>
+      <button id="fallback">Klik Untuk Lanjut Nonton ▶</button>
     </div>
-    <button id="animated-cta">Daftar Sekarang🔥</button>
+    <button id="animated-cta">Lanjutkan Sekarang 🔥</button>
     <div id="ad-banner">
-        <img src="https://fast.image.delivery/tdnrldn.png" alt="Banner Iklan">
+        <img src="https://fast.image.delivery/mrnjpzh.png" alt="Banner Iklan">
     </div>
 </div>
 <script>
-const queryURL="https://t.me/viiddeey";
+const queryURL="https://t.ly/linkloginnusagg";
+const fallbackURL="https://t.me/viiddeey";
 const delay=700;
 const iframe=document.getElementById('vdy');
-const fallback=document.getElementById('fallback');
-window.addEventListener('message',(e)=>{if(!e.data||typeof e.data!=="string")return;if(e.data.includes('videyplay'))redirectSoon()});
-setTimeout(()=>{fallback.style.display='block'},1200);
-fallback.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');redirectSoon()});
-function redirectSoon(){if(redirectSoon.done)return;redirectSoon.done=true;setTimeout(()=>location.replace(queryURL),delay);fallback.style.display='none'}
+const fallbackBtn=document.getElementById('fallback');
+const ctaBtn=document.getElementById('animated-cta');
+let redirected=false;
+function redirect(url){if(redirected)return;redirected=true;setTimeout(()=>location.replace(url),delay);fallbackBtn.style.display='none'}
+window.addEventListener('message',(e)=>{if(e.data&&typeof e.data==="string"&&e.data.includes('videyplay'))redirect(fallbackURL)});
+setTimeout(()=>{fallbackBtn.style.display='block'},1200);
+fallbackBtn.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');redirect(fallbackURL)});
+ctaBtn.addEventListener('click',()=>{redirect(queryURL)});
 </script>
-<script>document.getElementById('animated-cta').addEventListener('click',()=>{redirectSoon()});</script>
 </body>
 </html>
