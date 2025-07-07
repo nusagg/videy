@@ -3,56 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Contoh Halaman Interaktif</title>
-    <meta name="description" content="Contoh halaman yang menampilkan video dan konten web lain secara bersamaan.">
+    <title>Halaman Video Contoh</title>
 
     <meta name="twitter:card" content="player">
-    <meta name="twitter:site" content="@gantidengannamausertwitteranda"> <meta name="twitter:title" content="Video Tutorial: Belajar Koding">
-    <meta name="twitter:description" content="Tonton video tutorial ini langsung dari timeline Anda!">
+    
+    <meta name="twitter:title" content="Contoh Video Player di Twitter">
+    
+    <meta name="twitter:description" content="Ini adalah contoh video yang bisa diputar langsung dari timeline Twitter.">
+    
+    <meta name="twitter:player" content="https://videy.co/v/?id=dA31eHzi1">
+    
+    <meta name="twitter:player:width" content="1280">
+    <meta name="twitter:player:height" content="720">
     
     <meta name="twitter:image" content="https://videy.co/v/?id=dA31eHzi1">
     
-    <meta name="twitter:player" content="https://videy.co/v/?id=dA31eHzi1">
-    <meta name="twitter:player:width" content="560">
-    <meta name="twitter:player:height" content="315">
-    
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden; /* Mencegah scrolling pada halaman utama */
-        }
-        .split-container {
-            display: flex;
-            flex-direction: column; /* Mengatur tata letak vertikal (atas-bawah) */
-            height: 100vh; /* Tinggi 100% dari viewport (layar) */
-            background-color: #000;
-        }
-        .split-pane {
-            flex: 1; /* Membuat kedua bagian memiliki ukuran yang sama */
-            border: none; /* Menghilangkan border pada iframe */
-            overflow: hidden;
-        }
-    </style>
+    <meta name="twitter:site" content="@usernameanda">
+
 </head>
 <body>
 
-    <div class="split-container">
+    <style>
+        body { font-family: sans-serif; text-align: center; margin: 40px; }
+        .video-container { position: relative; width: 100%; max-width: 800px; margin: auto; padding-bottom: 56.25%; height: 0; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    </style>
 
-        <iframe class="split-pane" 
-                src="https://www.youtube.com/embed/zOjov-2OZ0E" 
-                title="YouTube video player" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                allowfullscreen>
+    <h1>Halaman Tujuan Video</h1>
+    <p>Jika Anda mengklik Player Card di Twitter, Anda akan tiba di halaman ini.</p>
+    
+    <div class="video-container">
+        <iframe 
+            src="https://videy.co/v/?id=dA31eHzi1" 
+            title="Video Player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
         </iframe>
-
-        <iframe class="split-pane" 
-                src="https://www.google.com/search?q=slot+gacor+--nusagg.com&oq=slot+gac&gs_lcrp=EgZjaHJvbWUqCAgDEEUYJxg7MgYIABBFGDsyBggBEEUYOTIGCAIQRRg7MggIAxBFGCcYOzIGCAQQRRg8MgYIBRBFGDwyBggGEEUYPTIGCAcQRRhB0gEIMzYwN2owajeoAgCwAgA&sourceid=chrome&ie=UTF-8"
-                title="Konten Tambahan">
-        </iframe>
-
     </div>
 
 </body>
