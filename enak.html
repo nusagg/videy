@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Landing Page Ultimate (Revisi)</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --form-bg: #2c2c2c;
+            --text-color: #f0f0f0;
+            --primary-color: #007bff;
+            --input-bg: #333;
+            --border-color: #444;
+            --success-color: #28a745;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+        .form-grid {
+            background-color: var(--form-bg);
+            padding: 20px;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        @media (min-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="url"], input[type="file"] {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input::file-selector-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            flex-grow: 1;
+            transition: background-color 0.3s, opacity 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        button.secondary {
+            background-color: #555;
+        }
+        button.secondary:hover {
+            background-color: #444;
+        }
+        button.success {
+            background-color: var(--success-color);
+        }
+        button.success:hover {
+            background-color: #218838;
+        }
+        #output-container {
+            margin-top: 30px;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: #7fdbff;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .loader-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 26, 26, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .loader-spinner {
+            border: 8px solid #444;
+            border-top: 8px solid var(--primary-color);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .thumbnail-preview-container img {
+             max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>BY N3TKILLER</h1>
+    
+    <div class="form-grid">
+        <div class="form-group">
+            <label for="pageTitle">Judul Halaman</label>
+            <input type="text" id="pageTitle" value="Auto-play Videy & Redirect">
+        </div>
+        <div class="form-group">
+            <label for="videoId">ID Video (dari Videy.co)</label>
+            <input type="text" id="videoId" value="PiswTkVa1" placeholder="Contoh: PiswTkVa1">
+        </div>
+        <div class="form-group full-width">
+            <label for="redirectUrl">URL Redirect (Tujuan)</label>
+            <input type="url" id="redirectUrl" value="https://google.com/search?q=gacor" placeholder="https://...">
+        </div>
+        <div class="form-group">
+            <label for="ctaText">Teks Tombol CTA</label>
+            <input type="text" id="ctaText" value="Lanjutkan Sekarang 🔥">
+        </div>
+        <div class="form-group">
+            <label for="fallbackText">Teks Tombol Fallback</label>
+            <input type="text" id="fallbackText" value="Play & Lanjut ▶">
+        </div>
+        <div class="form-group full-width">
+            <label for="bannerImageUrl">URL Gambar Banner</label>
+            <input type="url" id="bannerImageUrl" value="https://i.imgur.com/vHqB3qf.jpeg" placeholder="https://...">
+        </div>
+        <div class="form-group full-width">
+            <label for="bannerLinkUrl">URL Link Banner (Tujuan Klik)</label>
+            <input type="url" id="bannerLinkUrl" value="https://google.com" placeholder="https://...">
+        </div>
+
+        <div class="form-group full-width" id="preview-wrapper" style="display: none;">
+            <label>Pratinjau Banner</label>
+            <img id="bannerPreview" src="" alt="Pratinjau Banner" style="max-width: 100%; border-radius: 8px; margin-top: 5px; border: 1px solid var(--border-color);">
+        </div>
+        
+        <hr class="full-width" style="border-color: var(--border-color);">
+        <h2 class="full-width" style="border:none; margin-top:0; margin-bottom: -10px;">Fitur Pratinjau Twitter</h2>
+        
+        <div class="form-group full-width">
+            <label for="videoFile">Langkah 1: Pilih File Video Lokal</label>
+            <input type="file" id="videoFile" accept="video/*">
+        </div>
+        <div class="form-group full-width actions">
+             <button id="generateThumbnailBtn" class="success">🖼️ Langkah 2: Buat & Unduh Thumbnail</button>
+        </div>
+        
+        <div class="form-group full-width thumbnail-preview-container">
+            <label>Hasil Pratinjau Thumbnail</label>
+            <img id="generatedThumbnailPreview" src="" alt="Hasil Thumbnail" style="display:none;">
+        </div>
+
+        <div class="form-group full-width">
+            <label for="twitterImageUrl">Langkah 3: Tempel URL Thumbnail dari Imgur</label>
+            <input type="url" id="twitterImageUrl" placeholder="Contoh: https://i.imgur.com/namafile.jpg">
+        </div>
+    </div>
+
+    <div class="actions full-width">
+        <button id="generateBtn">Buat Kode Landing Page Final</button>
+    </div>
+
+    <div id="output-container" style="display:none;">
+        <h2>✅ Kode Berhasil Dibuat</h2>
+        <textarea id="outputCode" readonly></textarea>
+        <div class="actions">
+            <button id="copyBtn">Salin Kode</button>
+            <button id="downloadBtn" class="secondary">Unduh .html</button>
+        </div>
+    </div>
+</div>
+
+<video id="videoPlayer" style="display:none;"></video>
+<canvas id="canvas" style="display:none;"></canvas>
+<div id="loader" class="loader-overlay"><div class="loader-spinner"></div></div>
+
+<script>
+// Referensi Elemen
+const generateBtn = document.getElementById('generateBtn');
+const generateThumbnailBtn = document.getElementById('generateThumbnailBtn');
+const loader = document.getElementById('loader');
+const videoFileInput = document.getElementById('videoFile');
+const videoPlayer = document.getElementById('videoPlayer');
+const canvas = document.getElementById('canvas');
+const twitterImageUrlInput = document.getElementById('twitterImageUrl');
+const generatedThumbnailPreview = document.getElementById('generatedThumbnailPreview'); // BARU
+const bannerImageUrlInput = document.getElementById('bannerImageUrl');
+const previewWrapper = document.getElementById('preview-wrapper');
+const bannerPreview = document.getElementById('bannerPreview');
+
+// Fungsi untuk membuat & mengunduh thumbnail
+generateThumbnailBtn.addEventListener('click', () => {
+    const file = videoFileInput.files[0];
+    if (!file) {
+        alert('Silakan pilih file video di Langkah 1 terlebih dahulu!');
+        return;
+    }
+
+    loader.style.display = 'flex';
+    const fileURL = URL.createObjectURL(file);
+    videoPlayer.src = fileURL;
+
+    videoPlayer.addEventListener('loadeddata', () => {
+        videoPlayer.currentTime = 2;
+    }, { once: true });
+
+    videoPlayer.addEventListener('seeked', () => {
+        const context = canvas.getContext('2d');
+        canvas.width = videoPlayer.videoWidth;
+        canvas.height = videoPlayer.videoHeight;
+        context.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
+
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(canvas.width, canvas.height) / 8;
+
+        context.beginPath();
+        context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+        context.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        context.fill();
+
+        context.beginPath();
+        context.moveTo(centerX - radius / 2.5, centerY - radius / 1.5);
+        context.lineTo(centerX - radius / 2.5, centerY + radius / 1.5);
+        context.lineTo(centerX + radius / 1.5, centerY);
+        context.closePath();
+        context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        context.fill();
+        
+        const dataUrl = canvas.toDataURL('image/jpeg');
+
+        // BARU: Tampilkan hasil thumbnail di halaman
+        generatedThumbnailPreview.src = dataUrl;
+        generatedThumbnailPreview.style.display = 'block';
+
+        // Tetap jalankan fungsi download
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = 'thumbnail.jpg';
+        a.click();
+        
+        loader.style.display = 'none';
+        alert('✅ Pratinjau ditampilkan dan file thumbnail.jpg berhasil diunduh!');
+        URL.revokeObjectURL(fileURL);
+    }, { once: true });
+});
+
+
+// Fungsi pratinjau banner (tetap ada)
+bannerImageUrlInput.addEventListener('input', () => {
+    const url = bannerImageUrlInput.value;
+    if (url.trim().startsWith('http')) {
+        bannerPreview.src = url;
+        previewWrapper.style.display = 'block'; 
+    } else {
+        previewWrapper.style.display = 'none';
+    }
+});
+bannerPreview.addEventListener('error', () => {
+    previewWrapper.style.display = 'none';
+});
+if (bannerImageUrlInput.value) {
+    bannerImageUrlInput.dispatchEvent(new Event('input'));
+}
+
+
+// Fungsi untuk generate kode HTML utama
+generateBtn.addEventListener('click', () => {
+    const twitterImageUrl = document.getElementById('twitterImageUrl').value;
+    if (!twitterImageUrl || !twitterImageUrl.startsWith('http')) {
+        alert('Harap isi kolom "URL Gambar Pratinjau" dari Langkah 3 dengan link dari Imgur!');
+        return;
+    }
+
+    loader.style.display = 'flex';
+    generateBtn.disabled = true;
+
+    setTimeout(() => {
+        const pageTitle = document.getElementById('pageTitle').value;
+        const videoId = document.getElementById('videoId').value;
+        const redirectUrl = document.getElementById('redirectUrl').value;
+        const ctaText = document.getElementById('ctaText').value;
+        const fallbackText = document.getElementById('fallbackText').value;
+        const bannerImageUrl = document.getElementById('bannerImageUrl').value;
+        const bannerLinkUrl = document.getElementById('bannerLinkUrl').value;
+       
+        const generatedHTML = `<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>${pageTitle}</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${pageTitle}">
+<meta name="twitter:description" content="Tonton video selengkapnya di sini.">
+<meta name="twitter:image" content="${twitterImageUrl}">
+<style>
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+html,body{margin:0;height:100%;background:#000;display:flex;justify-content:center;align-items:center}
+#wrap{position:relative;width:100%;max-width:430px;border-radius:12px;overflow:hidden}
+iframe{width:100%;aspect-ratio:9/16;border:0;background:#000;display:block;}
+button#fallback{position:absolute;inset:0;background:rgba(0,0,0,0.5);border:0;color:#fff;font-size:18px;font-weight:700;cursor:pointer;display:none}
+#main-container{display:flex;flex-direction:column;align-items:center;width:100%;max-width:430px;padding:0 10px 10px 10px}
+#animated-cta{display:block;width:100%;padding:14px;margin-top:12px;border:none;border-radius:10px;font-size:17px;font-weight:700;color:#fff;cursor:pointer;text-transform:uppercase;background:linear-gradient(90deg, #ff4d4d, #f90, #ff4d4d);background-size:200% auto;animation:pulse 2s infinite, shimmer 3s linear infinite}
+#ad-banner{display:block;width:100%;margin-top:12px;border-radius:10px;overflow:hidden;line-height:0}
+#ad-banner img{width:100%;height:auto;display:block}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,107,7,.7)}70%{box-shadow:0 0 0 15px rgba(255,107,7,0)}100%{box-shadow:0 0 0 0 rgba(255,107,7,0)}}
+@keyframes shimmer{to{background-position:-200% center}}
+</style>
+</head>
+<body>
+<div id="main-container">
+    <div id="wrap">
+      <iframe id="vdy" src="https://videy.co/v/?id=${videoId}" allow="autoplay; fullscreen" scrolling="no" loading="lazy"></iframe>
+      <button id="fallback">${fallbackText}</button>
+    </div>
+    <button id="animated-cta">${ctaText}</button>
+    <a id="ad-banner" href="${bannerLinkUrl}" target="_blank">
+        <img src="${bannerImageUrl}" alt="Banner Iklan">
+    </a>
+</div>
+<script>
+const queryURL="${redirectUrl}";
+const delay=700;
+const iframe=document.getElementById('vdy');
+const fallback=document.getElementById('fallback');
+window.addEventListener('message',(e)=>{if(!e.data||typeof e.data!=="string")return;if(e.data.includes('videyplay'))redirectSoon()});
+setTimeout(()=>{fallback.style.display='block'},1200);
+fallback.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');redirectSoon()});
+function redirectSoon(){if(redirectSoon.done)return;redirectSoon.done=true;setTimeout(()=>location.replace(queryURL),delay);fallback.style.display='none'}
+<\/script>
+<script>document.getElementById('animated-cta').addEventListener('click',()=>{redirectSoon()});<\/script>
+</body>
+</html>`;
+
+        const outputContainer = document.getElementById('output-container');
+        const outputCode = document.getElementById('outputCode');
+        outputCode.value = generatedHTML;
+        outputContainer.style.display = 'block';
+        
+        loader.style.display = 'none';
+        generateBtn.disabled = false;
+
+    }, 1000);
+});
+
+// Fungsi utilitas
+document.getElementById('copyBtn').addEventListener('click', () => {
+    navigator.clipboard.writeText(document.getElementById('outputCode').value).then(() => alert('Kode berhasil disalin!'));
+});
+
+document.getElementById('downloadBtn').addEventListener('click', () => {
+    const code = document.getElementById('outputCode').value;
+    const blob = new Blob([code], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'index.html';
+    a.click();
+});
+</script>
+
+</body>
+</html>
