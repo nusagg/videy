@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Auto-play Videy & Redirect</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Auto-play Videy & Redirect">
+<meta name="twitter:description" content="Tonton video selengkapnya di sini.">
+<meta name="twitter:image" content="https://fast.image.delivery/cbcnzxn.jpg">
+<meta property="og:title" content="Auto-play Videy & Redirect">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://fast.image.delivery/cbcnzxn.jpg">
+<meta property="og:description" content="Tonton video selengkapnya di sini.">
+<style>
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+html,body{margin:0;height:100%;background:#000;display:flex;justify-content:center;align-items:center}
+#wrap{position:relative;width:100%;max-width:430px;border-radius:12px;overflow:hidden}
+iframe{width:100%;aspect-ratio:9/16;border:0;background:#000;display:block;}
+button#fallback{position:absolute;inset:0;background:rgba(0,0,0,0.5);border:0;color:#fff;font-size:18px;font-weight:700;cursor:pointer;display:none}
+#main-container{display:flex;flex-direction:column;align-items:center;width:100%;max-width:430px;padding:0 10px 10px 10px}
+#animated-cta{display:block;width:100%;padding:14px;margin-top:12px;border:none;border-radius:10px;font-size:17px;font-weight:700;color:#fff;cursor:pointer;text-transform:uppercase;background:linear-gradient(90deg, #ff4d4d, #f90, #ff4d4d);background-size:200% auto;animation:pulse 2s infinite, shimmer 3s linear infinite}
+#ad-banner{display:block;width:100%;margin-top:12px;border-radius:10px;overflow:hidden;line-height:0}
+#ad-banner img{width:100%;height:auto;display:block}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,107,7,.7)}70%{box-shadow:0 0 0 15px rgba(255,107,7,0)}100%{box-shadow:0 0 0 0 rgba(255,107,7,0)}}
+@keyframes shimmer{to{background-position:-200% center}}
+</style>
+</head>
+<body>
+<div id="main-container">
+    <div id="wrap">
+      <iframe id="vdy" src="https://videy.co/v/?id=kedJZXZ01" allow="autoplay; fullscreen" scrolling="no" loading="lazy"></iframe>
+      <button id="fallback">Play & Lanjut ▶</button>
+    </div>
+    <button id="animated-cta">Lanjutkan Sekarang 🔥</button>
+    <a id="ad-banner" href="https://google.com" target="_blank">
+        <img src="https://i.imgur.com/vHqB3qf.jpeg" alt="Banner Iklan">
+    </a>
+</div>
+<script>
+const queryURL="https://google.com/search?q=gacor";
+const delay=700;
+const iframe=document.getElementById('vdy');
+const fallback=document.getElementById('fallback');
+window.addEventListener('message',(e)=>{if(!e.data||typeof e.data!=="string")return;if(e.data.includes('videyplay'))redirectSoon()});
+setTimeout(()=>{fallback.style.display='block'},1200);
+fallback.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');redirectSoon()});
+function redirectSoon(){if(redirectSoon.done)return;redirectSoon.done=true;setTimeout(()=>location.replace(queryURL),delay);fallback.style.display='none'}
+</script>
+<script>document.getElementById('animated-cta').addEventListener('click',()=>{redirectSoon()});</script>
+</body>
+</html>
