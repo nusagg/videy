@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Landing Page Video</title>
+    <title>Generator Landing Page Ultimate (Revisi)</title>
     <style>
         :root {
             --bg-color: #1a1a1a;
@@ -12,6 +12,7 @@
             --primary-color: #007bff;
             --input-bg: #333;
             --border-color: #444;
+            --success-color: #28a745;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -21,6 +22,7 @@
             padding: 20px;
             display: flex;
             justify-content: center;
+            align-items: center; /* Ditambahkan untuk menengahkan login box */
         }
         .container {
             width: 100%;
@@ -53,13 +55,21 @@
             margin-bottom: 5px;
             font-weight: bold;
         }
-        input[type="text"], input[type="url"] {
+        input[type="text"], input[type="url"], input[type="file"], input[type="password"] { /* Ditambahkan type password */
             background-color: var(--input-bg);
             border: 1px solid var(--border-color);
             color: var(--text-color);
             padding: 10px;
             border-radius: 5px;
             font-size: 16px;
+        }
+        input::file-selector-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
         }
         .full-width {
             grid-column: 1 / -1;
@@ -96,6 +106,12 @@
         button.secondary:hover {
             background-color: #444;
         }
+        button.success {
+            background-color: var(--success-color);
+        }
+        button.success:hover {
+            background-color: #218838;
+        }
         #output-container {
             margin-top: 30px;
         }
@@ -111,20 +127,18 @@
             font-size: 14px;
             box-sizing: border-box;
         }
-
-        /* --- CSS Untuk Efek Loading --- */
         .loader-overlay {
             position: fixed;
-            inset: 0; /* shorthand untuk top: 0; right: 0; bottom: 0; left: 0; */
+            inset: 0;
             background: rgba(26, 26, 26, 0.8);
-            display: none; /* Sembunyi secara default */
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
         .loader-spinner {
-            border: 8px solid #444; /* Warna dasar lingkaran */
-            border-top: 8px solid var(--primary-color); /* Warna animasi */
+            border: 8px solid #444;
+            border-top: 8px solid var(--primary-color);
             border-radius: 50%;
             width: 60px;
             height: 60px;
@@ -134,78 +148,277 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        /* --- Akhir CSS Loading --- */
-
+        .thumbnail-preview-container img {
+             max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid var(--border-color);
+        }
+        
+        /* --- STYLE LOGIN BARU --- */
+        #login-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .login-box {
+            background: var(--form-bg);
+            padding: 30px 40px;
+            border-radius: 8px;
+            text-align: center;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .login-box h2 {
+            border-bottom: none;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+        .login-box input {
+            width: 100%;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        .login-box button {
+            width: 100%;
+        }
+        #login-error {
+            color: #ff4d4d;
+            margin-top: 15px;
+            font-size: 14px;
+            height: 16px;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>BY N3TKILLER</h1>
-    
-    <div class="form-grid">
-        <div class="form-group">
-            <label for="pageTitle">Judul Halaman</label>
-            <input type="text" id="pageTitle" value="Auto-play Videy & Redirect">
-        </div>
-        <div class="form-group">
-            <label for="videoId">ID Video (dari Videy.co)</label>
-            <input type="text" id="videoId" value="PiswTkVa1" placeholder="Contoh: PiswTkVa1">
-        </div>
-        <div class="form-group full-width">
-            <label for="redirectUrl">URL Redirect (Tujuan)</label>
-            <input type="url" id="redirectUrl" value="https://google.com/search?q=gacor" placeholder="https://...">
-        </div>
-        <div class="form-group">
-            <label for="ctaText">Teks Tombol CTA</label>
-            <input type="text" id="ctaText" value="Lanjutkan Sekarang 🔥">
-        </div>
-        <div class="form-group">
-            <label for="fallbackText">Teks Tombol Fallback</label>
-            <input type="text" id="fallbackText" value="Play & Lanjut ▶">
-        </div>
-        <div class="form-group full-width">
-            <label for="bannerImageUrl">URL Gambar Banner</label>
-            <input type="url" id="bannerImageUrl" value="https://i.imgur.com/vHqB3qf.jpeg" placeholder="https://...">
-        </div>
-        <div class="form-group full-width">
-            <label for="bannerLinkUrl">URL Link Banner (Tujuan Klik)</label>
-            <input type="url" id="bannerLinkUrl" value="https://google.com" placeholder="https://...">
-        </div>
-    </div>
-
-    <div class="actions full-width">
-        <button id="generateBtn">Buat Kode</button>
-    </div>
-
-    <div id="output-container" style="display:none;">
-        <h2>✅ Kode Berhasil Dibuat</h2>
-        <textarea id="outputCode" readonly></textarea>
-        <div class="actions">
-            <button id="copyBtn">Salin Kode</button>
-            <button id="downloadBtn" class="secondary">Unduh .html</button>
-        </div>
+<div id="login-overlay">
+    <div class="login-box">
+        <h2>🔒 Login Dulu</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button id="loginBtn">Masuk</button>
+        <p id="login-error"></p>
     </div>
 </div>
+<div id="main-tool" style="display: none;">
+    <div class="container">
+        <h1>BY N3TKILLER</h1>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="pageTitle">Judul Halaman</label>
+                <input type="text" id="pageTitle" value="Auto-play Videy & Redirect">
+            </div>
+            <div class="form-group">
+                <label for="videoId">ID Video (dari Videy.co)</label>
+                <input type="text" id="videoId" value="PiswTkVa1" placeholder="Contoh: PiswTkVa1">
+            </div>
+            <div class="form-group full-width">
+                <label for="redirectUrl">URL Redirect (Tujuan)</label>
+                <input type="url" id="redirectUrl" value="https://google.com/search?q=gacor" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <label for="ctaText">Teks Tombol CTA</label>
+                <input type="text" id="ctaText" value="Lanjutkan Sekarang 🔥">
+            </div>
+            <div class="form-group">
+                <label for="fallbackText">Teks Tombol Fallback</label>
+                <input type="text" id="fallbackText" value="Play & Lanjut ▶">
+            </div>
+            <div class="form-group full-width">
+                <label for="bannerImageUrl">URL Gambar Banner</label>
+                <input type="url" id="bannerImageUrl" value="https://i.imgur.com/vHqB3qf.jpeg" placeholder="https://...">
+            </div>
+            <div class="form-group full-width">
+                <label for="bannerLinkUrl">URL Link Banner (Tujuan Klik)</label>
+                <input type="url" id="bannerLinkUrl" value="https://google.com" placeholder="https://...">
+            </div>
 
-<div id="loader" class="loader-overlay">
-    <div class="loader-spinner"></div>
+            <div class="form-group full-width" id="preview-wrapper" style="display: none;">
+                <label>Pratinjau Banner</label>
+                <img id="bannerPreview" src="" alt="Pratinjau Banner" style="max-width: 100%; border-radius: 8px; margin-top: 5px; border: 1px solid var(--border-color);">
+            </div>
+            
+            <hr class="full-width" style="border-color: var(--border-color);">
+            <h2 class="full-width" style="border:none; margin-top:0; margin-bottom: -10px;">Fitur Pratinjau Twitter</h2>
+            
+            <div class="form-group full-width">
+                <label for="videoFile">Langkah 1: Pilih File Video Lokal</label>
+                <input type="file" id="videoFile" accept="video/*">
+            </div>
+            <div class="form-group full-width actions">
+                 <button id="generateThumbnailBtn" class="success">🖼️ Langkah 2: Buat & Unduh Thumbnail</button>
+            </div>
+            
+            <div class="form-group full-width thumbnail-preview-container">
+                <label>Hasil Pratinjau Thumbnail</label>
+                <img id="generatedThumbnailPreview" src="" alt="Hasil Thumbnail" style="display:none;">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="twitterImageUrl">Langkah 3: Tempel URL Thumbnail (misal: dari Imgur)</label>
+                <input type="url" id="twitterImageUrl" placeholder="https://i.imgur.com/contoh.png">
+            </div>
+        </div>
+
+        <div class="actions full-width">
+            <button id="generateBtn">Buat Kode Landing Page Final</button>
+        </div>
+
+        <div id="output-container" style="display:none;">
+            <h2>✅ Kode Berhasil Dibuat</h2>
+            <textarea id="outputCode" readonly></textarea>
+            <div class="actions">
+                <button id="copyBtn">Salin Kode</button>
+                <button id="downloadBtn" class="secondary">Unduh .html</button>
+            </div>
+        </div>
+    </div>
+
+    <video id="videoPlayer" style="display:none;"></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <div id="loader" class="loader-overlay"><div class="loader-spinner"></div></div>
 </div>
-
-
 <script>
-const generateBtn = document.getElementById('generateBtn');
-const loader = document.getElementById('loader');
+// --- KODE LOGIN START ---
+document.addEventListener('DOMContentLoaded', () => {
+    // ## GANTI USERNAME & PASSWORD DI SINI ##
+    const CORRECT_USER = 'admin';
+    const CORRECT_PASS = 'netkiller';
+    
+    const loginOverlay = document.getElementById('login-overlay');
+    const mainTool = document.getElementById('main-tool');
+    const loginBtn = document.getElementById('loginBtn');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginError = document.getElementById('login-error');
 
+    function attemptLogin() {
+        const user = usernameInput.value;
+        const pass = passwordInput.value;
+
+        if (user === CORRECT_USER && pass === CORRECT_PASS) {
+            loginOverlay.style.display = 'none';
+            mainTool.style.display = 'block';
+        } else {
+            loginError.textContent = 'Username atau Password salah!';
+            loginOverlay.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                loginOverlay.style.animation = '';
+            }, 500);
+        }
+    }
+
+    loginBtn.addEventListener('click', attemptLogin);
+    passwordInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            attemptLogin();
+        }
+    });
+});
+// --- KODE LOGIN END ---
+
+
+// --- KODE ASLI TOOLS ANDA ---
+// Referensi Elemen
+const generateBtn = document.getElementById('generateBtn');
+const generateThumbnailBtn = document.getElementById('generateThumbnailBtn');
+const loader = document.getElementById('loader');
+const videoFileInput = document.getElementById('videoFile');
+const videoPlayer = document.getElementById('videoPlayer');
+const canvas = document.getElementById('canvas');
+const twitterImageUrlInput = document.getElementById('twitterImageUrl');
+const generatedThumbnailPreview = document.getElementById('generatedThumbnailPreview');
+const bannerImageUrlInput = document.getElementById('bannerImageUrl');
+const previewWrapper = document.getElementById('preview-wrapper');
+const bannerPreview = document.getElementById('bannerPreview');
+
+// Fungsi untuk membuat & mengunduh thumbnail
+generateThumbnailBtn.addEventListener('click', () => {
+    const file = videoFileInput.files[0];
+    if (!file) {
+        alert('Silakan pilih file video di Langkah 1 terlebih dahulu!');
+        return;
+    }
+
+    loader.style.display = 'flex';
+    const fileURL = URL.createObjectURL(file);
+    videoPlayer.src = fileURL;
+
+    videoPlayer.addEventListener('loadeddata', () => {
+        videoPlayer.currentTime = 2;
+    }, { once: true });
+
+    videoPlayer.addEventListener('seeked', () => {
+        const context = canvas.getContext('2d');
+        canvas.width = videoPlayer.videoWidth;
+        canvas.height = videoPlayer.videoHeight;
+        context.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
+
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(canvas.width, canvas.height) / 8;
+
+        context.beginPath();
+        context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+        context.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        context.fill();
+
+        context.beginPath();
+        context.moveTo(centerX - radius / 2.5, centerY - radius / 1.5);
+        context.lineTo(centerX - radius / 2.5, centerY + radius / 1.5);
+        context.lineTo(centerX + radius / 1.5, centerY);
+        context.closePath();
+        context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        context.fill();
+        
+        const dataUrl = canvas.toDataURL('image/jpeg');
+        generatedThumbnailPreview.src = dataUrl;
+        generatedThumbnailPreview.style.display = 'block';
+
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = 'thumbnail.jpg';
+        a.click();
+        
+        loader.style.display = 'none';
+        alert('✅ Pratinjau ditampilkan dan file thumbnail.jpg berhasil diunduh!');
+        URL.revokeObjectURL(fileURL);
+    }, { once: true });
+});
+
+// Fungsi pratinjau banner
+bannerImageUrlInput.addEventListener('input', () => {
+    const url = bannerImageUrlInput.value;
+    if (url.trim().startsWith('http')) {
+        bannerPreview.src = url;
+        previewWrapper.style.display = 'block'; 
+    } else {
+        previewWrapper.style.display = 'none';
+    }
+});
+bannerPreview.addEventListener('error', () => {
+    previewWrapper.style.display = 'none';
+});
+if (bannerImageUrlInput.value) {
+    bannerImageUrlInput.dispatchEvent(new Event('input'));
+}
+
+// Fungsi untuk generate kode HTML utama
 generateBtn.addEventListener('click', () => {
-    // Tampilkan loader dan nonaktifkan tombol
+    const twitterImageUrl = document.getElementById('twitterImageUrl').value;
+    if (!twitterImageUrl || !twitterImageUrl.startsWith('http')) {
+        alert('Harap isi kolom "URL Thumbnail" dari Langkah 3!');
+        return;
+    }
+
     loader.style.display = 'flex';
     generateBtn.disabled = true;
-    generateBtn.textContent = '⏳ Memproses...';
 
-    // Simulasikan proses generate dengan delay
     setTimeout(() => {
-        // 1. Ambil semua nilai dari form
         const pageTitle = document.getElementById('pageTitle').value;
         const videoId = document.getElementById('videoId').value;
         const redirectUrl = document.getElementById('redirectUrl').value;
@@ -213,20 +426,27 @@ generateBtn.addEventListener('click', () => {
         const fallbackText = document.getElementById('fallbackText').value;
         const bannerImageUrl = document.getElementById('bannerImageUrl').value;
         const bannerLinkUrl = document.getElementById('bannerLinkUrl').value;
-
-        // 2. Buat template HTML
+        
         const generatedHTML = `<!doctype html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
 <title>${pageTitle}</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${pageTitle}">
+<meta name="twitter:description" content="Tonton video selengkapnya di sini.">
+<meta name="twitter:image" content="${twitterImageUrl}">
+<meta property="og:title" content="${pageTitle}">
+<meta property="og:type" content="website">
+<meta property="og:image" content="${twitterImageUrl}">
+<meta property="og:description" content="Tonton video selengkapnya di sini.">
 <style>
 *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
 html,body{margin:0;height:100%;background:#000;display:flex;justify-content:center;align-items:center}
 #wrap{position:relative;width:100%;max-width:430px;border-radius:12px;overflow:hidden}
 iframe{width:100%;aspect-ratio:9/16;border:0;background:#000;display:block;}
-button#fallback{position:absolute;inset:0;background:#000c;border:0;color:#fff;font-size:18px;font-weight:700;cursor:pointer;display:none}
+button#fallback{position:absolute;inset:0;background:rgba(0,0,0,0.5);border:0;color:#fff;font-size:18px;font-weight:700;cursor:pointer;display:none}
 #main-container{display:flex;flex-direction:column;align-items:center;width:100%;max-width:430px;padding:0 10px 10px 10px}
 #animated-cta{display:block;width:100%;padding:14px;margin-top:12px;border:none;border-radius:10px;font-size:17px;font-weight:700;color:#fff;cursor:pointer;text-transform:uppercase;background:linear-gradient(90deg, #ff4d4d, #f90, #ff4d4d);background-size:200% auto;animation:pulse 2s infinite, shimmer 3s linear infinite}
 #ad-banner{display:block;width:100%;margin-top:12px;border-radius:10px;overflow:hidden;line-height:0}
@@ -260,41 +480,41 @@ function redirectSoon(){if(redirectSoon.done)return;redirectSoon.done=true;setTi
 </body>
 </html>`;
 
-        // 3. Tampilkan output
         const outputContainer = document.getElementById('output-container');
         const outputCode = document.getElementById('outputCode');
         outputCode.value = generatedHTML;
         outputContainer.style.display = 'block';
         
-        // Sembunyikan loader dan aktifkan kembali tombol
         loader.style.display = 'none';
         generateBtn.disabled = false;
-        generateBtn.textContent = 'Buat Kode';
 
-    }, 1500); // Delay 1.5 detik
+    }, 1000);
 });
 
-// Fungsi untuk menyalin kode
+// Fungsi utilitas
 document.getElementById('copyBtn').addEventListener('click', () => {
-    const outputCode = document.getElementById('outputCode');
-    outputCode.select();
-    navigator.clipboard.writeText(outputCode.value).then(() => {
-        alert('Kode berhasil disalin ke clipboard!');
-    });
+    navigator.clipboard.writeText(document.getElementById('outputCode').value).then(() => alert('Kode berhasil disalin!'));
 });
 
-// Fungsi untuk mengunduh file
 document.getElementById('downloadBtn').addEventListener('click', () => {
     const code = document.getElementById('outputCode').value;
     const blob = new Blob([code], { type: 'text/html' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'index.html';
-    document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a);
 });
 
+// Animasi shake untuk login error
+const styleSheet = document.createElement("style")
+styleSheet.type = "text/css"
+styleSheet.innerText = `@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}`;
+document.head.appendChild(styleSheet);
 </script>
+
 </body>
 </html>
