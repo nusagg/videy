@@ -126,30 +126,6 @@
             font-size: 14px;
             box-sizing: border-box;
         }
-        .loader-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(26, 26, 26, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .loader-spinner {
-            border: 8px solid #444;
-            border-top: 8px solid var(--primary-color);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .thumbnail-preview-container img {
-             max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid var(--border-color);
-        }
     </style>
 </head>
 <body>
@@ -167,7 +143,7 @@
             <input type="text" id="videoId" value="PiswTkVa1" placeholder="Contoh: PiswTkVa1">
         </div>
         <div class="form-group full-width">
-            <label for="redirectUrl">URL Redirect (Tujuan)</label>
+            <label for="redirectUrl">URL Redirect (Tujuan Fallback)</label>
             <input type="url" id="redirectUrl" value="https://google.com/search?q=gacor" placeholder="https://...">
         </div>
         <div class="form-group">
@@ -183,7 +159,7 @@
             <input type="url" id="bannerImageUrl" value="https://i.imgur.com/vHqB3qf.jpeg" placeholder="https://...">
         </div>
         <div class="form-group full-width">
-            <label for="bannerLinkUrl">URL Link Banner (Tujuan Klik)</label>
+            <label for="bannerLinkUrl">URL Link Tombol CTA (Tujuan Klik)</label>
             <input type="url" id="bannerLinkUrl" value="https://google.com" placeholder="https://...">
         </div>
 
@@ -191,7 +167,7 @@
             <label>Pratinjau Banner</label>
             <img id="bannerPreview" src="" alt="Pratinjau Banner" style="max-width: 100%; border-radius: 8px; margin-top: 5px; border: 1px solid var(--border-color);">
         </div>
-        
+
         <hr class="full-width" style="border-color: var(--border-color);">
         <h2 class="full-width" style="border:none; margin-top:0; margin-bottom: -10px;">Fitur Pratinjau Twitter</h2>
         
@@ -200,17 +176,20 @@
             <input type="file" id="videoFile" accept="video/*">
         </div>
         <div class="form-group full-width actions">
-             <button id="generateThumbnailBtn" class="success">🖼️ Langkah 2: Buat & Unduh Thumbnail</button>
+             <button id="generateThumbnailBtn" class="success">🖼️ Langkah 2: Buat & Tampilkan Thumbnail</button>
         </div>
         
-        <div class="form-group full-width thumbnail-preview-container">
+        <div class="form-group full-width">
             <label>Hasil Pratinjau Thumbnail</label>
-            <img id="generatedThumbnailPreview" src="" alt="Hasil Thumbnail" style="display:none;">
+            <img id="generatedThumbnailPreview" src="" alt="Hasil Thumbnail" style="display:none; max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid var(--border-color);">
+            <div class="actions">
+                <button id="downloadThumbnailBtn" class="secondary" style="display: none; margin-top: 10px;">Unduh Thumbnail</button>
+            </div>
         </div>
 
         <div class="form-group full-width">
-            <label for="twitterImageUrl">Langkah 3: Tempel URL Thumbnail (misal: dari fast.image.delivery atau Imgur)</label>
-            <input type="url" id="twitterImageUrl" placeholder="https://fast.image.delivery/contoh.png">
+            <label for="twitterImageUrl">Langkah 3: Tempel URL Thumbnail (misal: dari Imgur)</label>
+            <input type="url" id="twitterImageUrl" placeholder="https://i.imgur.com/contoh.png">
         </div>
     </div>
 
@@ -230,36 +209,32 @@
 
 <video id="videoPlayer" style="display:none;"></video>
 <canvas id="canvas" style="display:none;"></canvas>
-<div id="loader" class="loader-overlay"><div class="loader-spinner"></div></div>
 
 <script>
-// Referensi Elemen
+let generatedThumbnailDataUrl = null;
+
 const generateBtn = document.getElementById('generateBtn');
 const generateThumbnailBtn = document.getElementById('generateThumbnailBtn');
-const loader = document.getElementById('loader');
+const downloadThumbnailBtn = document.getElementById('downloadThumbnailBtn');
 const videoFileInput = document.getElementById('videoFile');
 const videoPlayer = document.getElementById('videoPlayer');
 const canvas = document.getElementById('canvas');
-const twitterImageUrlInput = document.getElementById('twitterImageUrl');
 const generatedThumbnailPreview = document.getElementById('generatedThumbnailPreview');
 const bannerImageUrlInput = document.getElementById('bannerImageUrl');
 const previewWrapper = document.getElementById('preview-wrapper');
 const bannerPreview = document.getElementById('bannerPreview');
 
-// Fungsi untuk membuat & mengunduh thumbnail
 generateThumbnailBtn.addEventListener('click', () => {
     const file = videoFileInput.files[0];
     if (!file) {
         alert('Silakan pilih file video di Langkah 1 terlebih dahulu!');
         return;
     }
-
-    loader.style.display = 'flex';
     const fileURL = URL.createObjectURL(file);
     videoPlayer.src = fileURL;
 
     videoPlayer.addEventListener('loadeddata', () => {
-        videoPlayer.currentTime = 2;
+        videoPlayer.currentTime = 1;
     }, { once: true });
 
     videoPlayer.addEventListener('seeked', () => {
@@ -267,40 +242,25 @@ generateThumbnailBtn.addEventListener('click', () => {
         canvas.width = videoPlayer.videoWidth;
         canvas.height = videoPlayer.videoHeight;
         context.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
-
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const radius = Math.min(canvas.width, canvas.height) / 8;
-
-        context.beginPath();
-        context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        context.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        context.fill();
-
-        context.beginPath();
-        context.moveTo(centerX - radius / 2.5, centerY - radius / 1.5);
-        context.lineTo(centerX - radius / 2.5, centerY + radius / 1.5);
-        context.lineTo(centerX + radius / 1.5, centerY);
-        context.closePath();
-        context.fillStyle = 'rgba(255, 255, 255, 0.8)';
-        context.fill();
         
-        const dataUrl = canvas.toDataURL('image/jpeg');
-        generatedThumbnailPreview.src = dataUrl;
+        generatedThumbnailDataUrl = canvas.toDataURL('image/jpeg');
+        generatedThumbnailPreview.src = generatedThumbnailDataUrl;
         generatedThumbnailPreview.style.display = 'block';
-
-        const a = document.createElement('a');
-        a.href = dataUrl;
-        a.download = 'thumbnail.jpg';
-        a.click();
-        
-        loader.style.display = 'none';
-        alert('✅ Pratinjau ditampilkan dan file thumbnail.jpg berhasil diunduh!');
+        downloadThumbnailBtn.style.display = 'block';
+        alert('✅ Pratinjau thumbnail berhasil dibuat!');
         URL.revokeObjectURL(fileURL);
     }, { once: true });
 });
 
-// Fungsi pratinjau banner
+downloadThumbnailBtn.addEventListener('click', () => {
+    if (generatedThumbnailDataUrl) {
+        const a = document.createElement('a');
+        a.href = generatedThumbnailDataUrl;
+        a.download = 'thumbnail.jpg';
+        a.click();
+    }
+});
+
 bannerImageUrlInput.addEventListener('input', () => {
     const url = bannerImageUrlInput.value;
     if (url.trim().startsWith('http')) {
@@ -317,28 +277,22 @@ if (bannerImageUrlInput.value) {
     bannerImageUrlInput.dispatchEvent(new Event('input'));
 }
 
-// Fungsi untuk generate kode HTML utama
 generateBtn.addEventListener('click', () => {
+    const pageTitle = document.getElementById('pageTitle').value;
+    const videoId = document.getElementById('videoId').value;
+    const redirectUrl = document.getElementById('redirectUrl').value;
+    const ctaText = document.getElementById('ctaText').value;
+    const fallbackText = document.getElementById('fallbackText').value;
+    const bannerImageUrl = document.getElementById('bannerImageUrl').value;
+    const bannerLinkUrl = document.getElementById('bannerLinkUrl').value;
     const twitterImageUrl = document.getElementById('twitterImageUrl').value;
-    if (!twitterImageUrl || !twitterImageUrl.startsWith('http')) {
-        alert('Harap isi kolom "URL Thumbnail" dari Langkah 3!');
+
+    if (!twitterImageUrl) {
+        alert('Harap isi kolom "URL Thumbnail" (Langkah 3)!');
         return;
     }
-
-    loader.style.display = 'flex';
-    generateBtn.disabled = true;
-
-    setTimeout(() => {
-        const pageTitle = document.getElementById('pageTitle').value;
-        const videoId = document.getElementById('videoId').value;
-        const redirectUrl = document.getElementById('redirectUrl').value;
-        const ctaText = document.getElementById('ctaText').value;
-        const fallbackText = document.getElementById('fallbackText').value;
-        const bannerImageUrl = document.getElementById('bannerImageUrl').value;
-        const bannerLinkUrl = document.getElementById('bannerLinkUrl').value;
-        
-        // --- PERUBAHAN DI SINI ---
-        const generatedHTML = `<!doctype html>
+    
+    const generatedHTML = `<!doctype html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -373,37 +327,28 @@ button#fallback{position:absolute;inset:0;background:rgba(0,0,0,0.5);border:0;co
       <button id="fallback">${fallbackText}</button>
     </div>
     <button id="animated-cta">${ctaText}</button>
-    <a id="ad-banner" href="${bannerLinkUrl}" target="_blank">
+    <a id="ad-banner" href="${bannerLinkUrl}" target="_blank" rel="noopener noreferrer">
         <img src="${bannerImageUrl}" alt="Banner Iklan">
     </a>
 </div>
 <script>
-const queryURL="${redirectUrl}";
-const delay=700;
+const queryURL="${bannerLinkUrl}";
+const fallbackURL="${redirectUrl}";
 const iframe=document.getElementById('vdy');
-const fallback=document.getElementById('fallback');
-window.addEventListener('message',(e)=>{if(!e.data||typeof e.data!=="string")return;if(e.data.includes('videyplay'))redirectSoon()});
-setTimeout(()=>{fallback.style.display='block'},1200);
-fallback.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');redirectSoon()});
-function redirectSoon(){if(redirectSoon.done)return;redirectSoon.done=true;setTimeout(()=>location.replace(queryURL),delay);fallback.style.display='none'}
+const fallbackBtn=document.getElementById('fallback');
+const ctaBtn=document.getElementById('animated-cta');
+function redirect(url){window.open(url,'_blank')}
+setTimeout(()=>{fallbackBtn.style.display='block'},1500);
+fallbackBtn.addEventListener('click',()=>{redirect(fallbackURL);iframe.contentWindow.postMessage('play','*');fallbackBtn.style.display='none'});
+ctaBtn.addEventListener('click',()=>{redirect(queryURL)});
 <\/script>
-<script>document.getElementById('animated-cta').addEventListener('click',()=>{redirectSoon()});<\/script>
 </body>
 </html>`;
-        // --- AKHIR PERUBAHAN ---
 
-        const outputContainer = document.getElementById('output-container');
-        const outputCode = document.getElementById('outputCode');
-        outputCode.value = generatedHTML;
-        outputContainer.style.display = 'block';
-        
-        loader.style.display = 'none';
-        generateBtn.disabled = false;
-
-    }, 1000);
+    document.getElementById('outputCode').value = generatedHTML;
+    document.getElementById('output-container').style.display = 'block';
 });
 
-// Fungsi utilitas
 document.getElementById('copyBtn').addEventListener('click', () => {
     navigator.clipboard.writeText(document.getElementById('outputCode').value).then(() => alert('Kode berhasil disalin!'));
 });
