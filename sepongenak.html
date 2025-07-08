@@ -30,26 +30,24 @@ button#fallback{position:absolute;inset:0;background:rgba(0,0,0,0.5);border:0;co
 <div id="main-container">
     <div id="wrap">
       <iframe id="vdy" src="https://videy.co/v/?id=CqjqWcZo1" allow="autoplay; fullscreen" scrolling="no" loading="lazy"></iframe>
-      <button id="fallback">Klik Untuk Lanjut Nonton ▶</button>
+      <button id="fallback">Play & Lanjut ▶</button>
     </div>
     <button id="animated-cta">Lanjutkan Sekarang 🔥</button>
-    <div id="ad-banner">
+    <a id="ad-banner" href="https://t.ly/linkloginnusagg" target="_blank" rel="noopener noreferrer">
         <img src="https://fast.image.delivery/mrnjpzh.png" alt="Banner Iklan">
-    </div>
+    </a>
 </div>
 <script>
-const queryURL="https://t.ly/linkloginnusagg";
-const fallbackURL="https://t.me/viiddeey";
-const delay=700;
-const iframe=document.getElementById('vdy');
+const ctaURL="https://google.com/search?q=gacor";
 const fallbackBtn=document.getElementById('fallback');
 const ctaBtn=document.getElementById('animated-cta');
+const iframe=document.getElementById('vdy');
+const delay=700;
 let redirected=false;
-function redirect(url){if(redirected)return;redirected=true;setTimeout(()=>location.replace(url),delay);fallbackBtn.style.display='none'}
-window.addEventListener('message',(e)=>{if(e.data&&typeof e.data==="string"&&e.data.includes('videyplay'))redirect(fallbackURL)});
-setTimeout(()=>{fallbackBtn.style.display='block'},1200);
-fallbackBtn.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');redirect(fallbackURL)});
-ctaBtn.addEventListener('click',()=>{redirect(queryURL)});
+function redirect(url){if(redirected)return;redirected=true;fallbackBtn.style.display='none';setTimeout(()=>{window.open(url,'_blank');},delay)}
+window.addEventListener('message',e=>{if(e.data&&typeof e.data==="string"&&e.data.includes('videyplay'))redirect(ctaURL)});
+fallbackBtn.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');redirect(ctaURL)});
+ctaBtn.addEventListener('click',()=>redirect(ctaURL));
 </script>
 </body>
 </html>
