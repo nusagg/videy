@@ -2,13 +2,13 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<title>Auto-play Videy & Redirect</title>
+<title>#bokepindo #videy #chudai #terabox #dodstream #nusagg</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Auto-play Videy & Redirect">
+<meta name="twitter:title" content="#bokepindo #videy #chudai #terabox #dodstream #nusagg">
 <meta name="twitter:description" content="Tonton video selengkapnya di sini.">
 <meta name="twitter:image" content="https://fast.image.delivery/ciziwdc.png">
-<meta property="og:title" content="Auto-play Videy & Redirect">
+<meta property="og:title" content="#bokepindo #videy #chudai #terabox #dodstream #nusagg">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://fast.image.delivery/ciziwdc.png">
 <meta property="og:description" content="Tonton video selengkapnya di sini.">
@@ -30,7 +30,7 @@ button#fallback{position:absolute;inset:0;background:rgba(0,0,0,0.5);border:0;co
 <div id="main-container">
     <div id="wrap">
       <iframe id="vdy" src="https://videy.co/v/?id=CqjqWcZo1" allow="autoplay; fullscreen" scrolling="no" loading="lazy"></iframe>
-      <button id="fallback">Klik Untuk Lanjut Nonton ▶</button>
+      <button id="fallback">Play & Lanjut ▶</button>
     </div>
     <button id="animated-cta">Lanjutkan Sekarang 🔥</button>
     <a id="ad-banner" href="https://t.ly/linkloginnusagg" target="_blank" rel="noopener noreferrer">
@@ -44,9 +44,8 @@ const iframe=document.getElementById('vdy');
 const fallbackBtn=document.getElementById('fallback');
 const ctaBtn=document.getElementById('animated-cta');
 function redirect(url){window.open(url,'_blank')}
-window.addEventListener('message',e=>{if(e.data&&typeof e.data==="string"&&e.data.includes('videyplay')){redirect(fallbackURL)}});
 setTimeout(()=>{fallbackBtn.style.display='block'},1500);
-fallbackBtn.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');fallbackBtn.style.display='none'});
+fallbackBtn.addEventListener('click',()=>{redirect(fallbackURL);iframe.contentWindow.postMessage('play','*');fallbackBtn.style.display='none'});
 ctaBtn.addEventListener('click',()=>{redirect(queryURL)});
 </script>
 </body>
