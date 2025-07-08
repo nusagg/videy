@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Landing Page Ultimate (Revisi)</title>
+    <title>Generator Landing Page Ultimate (Final)</title>
     <style>
         :root {
             --bg-color: #1a1a1a;
@@ -126,6 +126,28 @@
             font-size: 14px;
             box-sizing: border-box;
         }
+        /* CSS UNTUK LOADER */
+        .loader-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 26, 26, 0.8);
+            display: none; /* Awalnya disembunyikan */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .loader-spinner {
+            border: 8px solid #444;
+            border-top: 8px solid var(--primary-color);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -136,7 +158,7 @@
     <div class="form-grid">
         <div class="form-group">
             <label for="pageTitle">Judul Halaman</label>
-            <input type="text" id="pageTitle" value="Auto-play Videy & Redirect">
+            <input type="text" id="pageTitle" value="#bokepindo #videy #chudai #terabox #dodstream">
         </div>
         <div class="form-group">
             <label for="videoId">ID Video (dari Videy.co)</label>
@@ -152,15 +174,15 @@
         </div>
         <div class="form-group">
             <label for="fallbackText">Teks Tombol Fallback</label>
-            <input type="text" id="fallbackText" value="Play & Lanjut ▶">
+            <input type="text" id="fallbackText" value="Klik Untuk Play ▶">
         </div>
         <div class="form-group full-width">
             <label for="bannerImageUrl">URL Gambar Banner</label>
-            <input type="url" id="bannerImageUrl" value="https://i.imgur.com/vHqB3qf.jpeg" placeholder="https://...">
+            <input type="url" id="bannerImageUrl" value="" placeholder="https://...">
         </div>
         <div class="form-group full-width">
             <label for="bannerLinkUrl">URL Link Tombol CTA (Tujuan Klik)</label>
-            <input type="url" id="bannerLinkUrl" value="https://google.com" placeholder="https://...">
+            <input type="url" id="bannerLinkUrl" value="" placeholder="https://...">
         </div>
 
         <div class="form-group full-width" id="preview-wrapper" style="display: none;">
@@ -188,8 +210,8 @@
         </div>
 
         <div class="form-group full-width">
-            <label for="twitterImageUrl">Langkah 3: Tempel URL Thumbnail (misal: dari Imgur)</label>
-            <input type="url" id="twitterImageUrl" placeholder="https://i.imgur.com/contoh.png">
+            <label for="twitterImageUrl">Langkah 3: Tempel URL Thumbnail (misal: dari https://image.delivery/)</label>
+            <input type="url" id="twitterImageUrl" placeholder="https://image.delivery/">
         </div>
     </div>
 
@@ -209,6 +231,7 @@
 
 <video id="videoPlayer" style="display:none;"></video>
 <canvas id="canvas" style="display:none;"></canvas>
+<div id="loader" class="loader-overlay"><div class="loader-spinner"></div></div>
 
 <script>
 let generatedThumbnailDataUrl = null;
@@ -220,9 +243,11 @@ const videoFileInput = document.getElementById('videoFile');
 const videoPlayer = document.getElementById('videoPlayer');
 const canvas = document.getElementById('canvas');
 const generatedThumbnailPreview = document.getElementById('generatedThumbnailPreview');
+// VARIABEL PRATINJAU BANNER DITAMBAHKAN KEMBALI
 const bannerImageUrlInput = document.getElementById('bannerImageUrl');
 const previewWrapper = document.getElementById('preview-wrapper');
 const bannerPreview = document.getElementById('bannerPreview');
+const loader = document.getElementById('loader');
 
 generateThumbnailBtn.addEventListener('click', () => {
     const file = videoFileInput.files[0];
@@ -230,6 +255,8 @@ generateThumbnailBtn.addEventListener('click', () => {
         alert('Silakan pilih file video di Langkah 1 terlebih dahulu!');
         return;
     }
+    
+    loader.style.display = 'flex';
     const fileURL = URL.createObjectURL(file);
     videoPlayer.src = fileURL;
 
@@ -243,10 +270,29 @@ generateThumbnailBtn.addEventListener('click', () => {
         canvas.height = videoPlayer.videoHeight;
         context.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
         
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(canvas.width, canvas.height) / 8;
+
+        context.beginPath();
+        context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+        context.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        context.fill();
+
+        context.beginPath();
+        context.moveTo(centerX - radius / 2.5, centerY - radius / 1.5);
+        context.lineTo(centerX - radius / 2.5, centerY + radius / 1.5);
+        context.lineTo(centerX + radius / 1.5, centerY);
+        context.closePath();
+        context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        context.fill();
+
         generatedThumbnailDataUrl = canvas.toDataURL('image/jpeg');
         generatedThumbnailPreview.src = generatedThumbnailDataUrl;
         generatedThumbnailPreview.style.display = 'block';
         downloadThumbnailBtn.style.display = 'block';
+        
+        loader.style.display = 'none';
         alert('✅ Pratinjau thumbnail berhasil dibuat!');
         URL.revokeObjectURL(fileURL);
     }, { once: true });
@@ -261,6 +307,7 @@ downloadThumbnailBtn.addEventListener('click', () => {
     }
 });
 
+// FUNGSI PRATINJAU BANNER DITAMBAHKAN KEMBALI
 bannerImageUrlInput.addEventListener('input', () => {
     const url = bannerImageUrlInput.value;
     if (url.trim().startsWith('http')) {
@@ -278,21 +325,25 @@ if (bannerImageUrlInput.value) {
 }
 
 generateBtn.addEventListener('click', () => {
-    const pageTitle = document.getElementById('pageTitle').value;
-    const videoId = document.getElementById('videoId').value;
-    const redirectUrl = document.getElementById('redirectUrl').value;
-    const ctaText = document.getElementById('ctaText').value;
-    const fallbackText = document.getElementById('fallbackText').value;
-    const bannerImageUrl = document.getElementById('bannerImageUrl').value;
-    const bannerLinkUrl = document.getElementById('bannerLinkUrl').value;
     const twitterImageUrl = document.getElementById('twitterImageUrl').value;
-
     if (!twitterImageUrl) {
         alert('Harap isi kolom "URL Thumbnail" (Langkah 3)!');
         return;
     }
     
-    const generatedHTML = `<!doctype html>
+    loader.style.display = 'flex';
+    generateBtn.disabled = true;
+
+    setTimeout(() => {
+        const pageTitle = document.getElementById('pageTitle').value;
+        const videoId = document.getElementById('videoId').value;
+        const redirectUrl = document.getElementById('redirectUrl').value;
+        const ctaText = document.getElementById('ctaText').value;
+        const fallbackText = document.getElementById('fallbackText').value;
+        const bannerImageUrl = document.getElementById('bannerImageUrl').value;
+        const bannerLinkUrl = document.getElementById('bannerLinkUrl').value;
+        
+        const generatedHTML = `<!doctype html>
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -345,8 +396,12 @@ ctaBtn.addEventListener('click',()=>{redirect(queryURL)});
 </body>
 </html>`;
 
-    document.getElementById('outputCode').value = generatedHTML;
-    document.getElementById('output-container').style.display = 'block';
+        document.getElementById('outputCode').value = generatedHTML;
+        document.getElementById('output-container').style.display = 'block';
+        
+        loader.style.display = 'none';
+        generateBtn.disabled = false;
+    }, 500);
 });
 
 document.getElementById('copyBtn').addEventListener('click', () => {
