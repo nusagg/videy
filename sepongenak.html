@@ -29,13 +29,13 @@ button#fallback{position:absolute;inset:0;background:rgba(0,0,0,0.5);border:0;co
 <body>
 <div id="main-container">
     <div id="wrap">
-      <iframe id="vdy" src="https://videy.co/v/?id=9Bf3ygGV1" allow="autoplay; fullscreen" scrolling="no" loading="lazy"></iframe>
+      <iframe id="vdy" src="https://videy.co/v/?id=CqjqWcZo1" allow="autoplay; fullscreen" scrolling="no" loading="lazy"></iframe>
       <button id="fallback">Klik Untuk Lanjut Nonton ▶</button>
     </div>
     <button id="animated-cta">Lanjutkan Sekarang 🔥</button>
-    <div id="ad-banner">
+    <a id="ad-banner" href="https://t.ly/linkloginnusagg" target="_blank" rel="noopener noreferrer">
         <img src="https://fast.image.delivery/mrnjpzh.png" alt="Banner Iklan">
-    </div>
+    </a>
 </div>
 <script>
 const queryURL="https://t.ly/linkloginnusagg";
@@ -44,9 +44,9 @@ const iframe=document.getElementById('vdy');
 const fallbackBtn=document.getElementById('fallback');
 const ctaBtn=document.getElementById('animated-cta');
 function redirect(url){window.open(url,'_blank')}
-window.addEventListener('message',(e)=>{if(e.data&&typeof e.data==="string"&&e.data.includes('videyplay'))redirect(fallbackURL)});
-setTimeout(()=>{fallbackBtn.style.display='block'},1200);
-fallbackBtn.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');redirect(fallbackURL)});
+window.addEventListener('message',e=>{if(e.data&&typeof e.data==="string"&&e.data.includes('videyplay')){redirect(fallbackURL)}});
+setTimeout(()=>{fallbackBtn.style.display='block'},1500);
+fallbackBtn.addEventListener('click',()=>{iframe.contentWindow.postMessage('play','*');fallbackBtn.style.display='none'});
 ctaBtn.addEventListener('click',()=>{redirect(queryURL)});
 </script>
 </body>
